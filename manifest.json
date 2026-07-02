@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Easy Browser New Tab",
+  "description": "Replaces Chrome's new tab page with a simple, easy-to-use home screen.",
+  "version": "1.0.0",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": []
+}

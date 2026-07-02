@@ -17,7 +17,6 @@ const defaultSettings = {
 let apps = [];
 let settings = { ...defaultSettings };
 let editingId = null;
-let currentUrl = "";
 
 function loadState() {
   try {
@@ -99,27 +98,9 @@ function resetForm() {
   document.getElementById("appForm").reset();
 }
 
-function showHomeScreen() {
-  document.getElementById("homeScreen").classList.remove("hidden");
-  document.getElementById("browserScreen").classList.add("hidden");
-}
-
-function showBrowserScreen(url) {
-  document.getElementById("homeScreen").classList.add("hidden");
-  document.getElementById("browserScreen").classList.remove("hidden");
-  document.getElementById("currentAddress").textContent = url;
-}
-
 function openApp(url) {
   const cleaned = normalizeUrl(url);
-  currentUrl = cleaned;
-  showBrowserScreen(cleaned);
-}
-
-function refreshFrame() {
-  if (currentUrl) {
-    window.location.href = currentUrl;
-  }
+  window.location.href = cleaned;
 }
 
 function normalizeUrl(value) {
@@ -193,13 +174,6 @@ function handleSearch() {
 
 function bindEvents() {
   document.getElementById("editButton").addEventListener("click", toggleEditor);
-  document.getElementById("backHomeButton").addEventListener("click", showHomeScreen);
-  document.getElementById("refreshButton").addEventListener("click", refreshFrame);
-  document.getElementById("openSiteButton").addEventListener("click", () => {
-    if (currentUrl) {
-      window.location.href = currentUrl;
-    }
-  });
   document.getElementById("cancelEdit").addEventListener("click", () => {
     resetForm();
   });
