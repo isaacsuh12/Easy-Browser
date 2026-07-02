@@ -6,5 +6,12 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": []
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["*://*.google.com/*"],
+      "js": ["googleCleanup.js"],
+      "run_at": "document_end"
+    }
+  ]
 }

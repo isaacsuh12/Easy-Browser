@@ -2,38 +2,83 @@ const STORAGE_KEY = "easy-browser-apps-v1";
 const SETTINGS_KEY = "easy-browser-settings-v1";
 
 const defaultApps = [
-  { id: crypto.randomUUID(), title: "Google", url: "https://www.google.com", icon: "🔍" },
-  { id: crypto.randomUUID(), title: "YouTube", url: "https://www.youtube.com", icon: "▶️" },
-  { id: crypto.randomUUID(), title: "Weather", url: "https://weather.com", icon: "☀️" },
-  { id: crypto.randomUUID(), title: "News", url: "https://news.google.com", icon: "📰" },
+  {
+    id: crypto.randomUUID(),
+    title: "Google",
+    url: "https://www.google.com",
+    iconUrl: "https://picsum.photos/seed/google/120/120",
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "YouTube",
+    url: "https://www.youtube.com",
+    iconUrl: "https://picsum.photos/seed/youtube/120/120",
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "Weather",
+    url: "https://weather.com",
+    iconUrl: "https://picsum.photos/seed/weather/120/120",
+  },
+  {
+    id: crypto.randomUUID(),
+    title: "News",
+    url: "https://news.google.com",
+    iconUrl: "https://picsum.photos/seed/news/120/120",
+  },
 ];
 
 const defaultSettings = {
-  fontSize: 18,
+  fontSize: 20,
   highContrast: false,
-  bigButtons: false,
+  bigButtons: true,
+  googleFontSize: 24,
 };
 
 let apps = [];
 let settings = { ...defaultSettings };
 let editingId = null;
 
-function loadState() {
-  try {
-    const savedApps = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    const savedSettings = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+function chromeStorageAvailable() {
+  return typeof chrome !== "undefined" && chrome.storage && chrome.storage.local;
+}
 
-    apps = Array.isArray(savedApps) && savedApps.length ? savedApps : defaultApps;
-    settings = { ...defaultSettings, ...(savedSettings || {}) };
-  } catch (error) {
-    apps = [...defaultApps];
-    settings = { ...defaultSettings };
+function loadState() {
+  if (chromeStorageAvailable()) {
+    chrome.storage.local.get([STORAGE_KEY, SETTINGS_KEY], (result) => {
+      apps = Array.isArray(result[STORAGE_KEY]) && result[STORAGE_KEY].length ? result[STORAGE_KEY] : defaultApps;
+      settings = { ...defaultSettings, ...(result[SETTINGS_KEY] || {}) };
+      initializeApp();
+    });
+  } else {
+    try {
+      const savedApps = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      const savedSettings = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+
+      apps = Array.isArray(savedApps) && savedApps.length ? savedApps : defaultApps;
+      settings = { ...defaultSettings, ...(savedSettings || {}) };
+    } catch (error) {
+      apps = [...defaultApps];
+      settings = { ...defaultSettings };
+    }
+    initializeApp();
   }
 }
 
 function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  if (chromeStorageAvailable()) {
+    chrome.storage.local.set({ [STORAGE_KEY]: apps, [SETTINGS_KEY]: settings });
+  } else {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(apps));
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+}
+
+function initializeApp() {
+  bindEvents();
+  applySettings();
+  renderApps();
+  renderAppList();
 }
 
 function applySettings() {
@@ -42,6 +87,7 @@ function applySettings() {
   document.getElementById("fontSize").value = settings.fontSize;
   document.getElementById("highContrast").checked = settings.highContrast;
   document.getElementById("bigButtons").checked = settings.bigButtons;
+  document.getElementById("googleFontSize").value = settings.googleFontSize;
 }
 
 function renderApps() {
@@ -56,7 +102,7 @@ function renderApps() {
     }
     tile.type = "button";
     tile.innerHTML = `
-      <span class="app-icon">${escapeHtml(app.icon)}</span>
+      <img class="app-icon" src="${escapeHtml(app.iconUrl)}" alt="${escapeHtml(app.title)} icon" />
       <span class="app-label">${escapeHtml(app.title)}</span>
     `;
     tile.addEventListener("click", () => openApp(app.url));
@@ -89,7 +135,7 @@ function fillForm(app) {
   editingId = app.id;
   document.getElementById("appTitle").value = app.title;
   document.getElementById("appUrl").value = app.url;
-  document.getElementById("appIcon").value = app.icon;
+  document.getElementById("appIcon").value = app.iconUrl;
   document.getElementById("appTitle").focus();
 }
 
@@ -137,16 +183,16 @@ function saveApp(event) {
   event.preventDefault();
   const title = document.getElementById("appTitle").value.trim();
   const url = document.getElementById("appUrl").value.trim();
-  const icon = document.getElementById("appIcon").value.trim() || "🌐";
+  const iconUrl = document.getElementById("appIcon").value.trim() || "https://picsum.photos/seed/default/120/120";
 
   if (!title || !url) {
     return;
   }
 
   if (editingId) {
-    apps = apps.map((app) => (app.id === editingId ? { ...app, title, url, icon } : app));
+    apps = apps.map((app) => (app.id === editingId ? { ...app, title, url, iconUrl } : app));
   } else {
-    apps = [{ id: crypto.randomUUID(), title, url, icon }, ...apps];
+    apps = [{ id: crypto.randomUUID(), title, url, iconUrl }, ...apps];
   }
 
   saveState();
@@ -204,12 +250,13 @@ function bindEvents() {
     renderApps();
     saveState();
   });
+
+  document.getElementById("googleFontSize").addEventListener("input", (event) => {
+    settings.googleFontSize = Number(event.target.value);
+    saveState();
+  });
 }
 
 window.addEventListener("DOMContentLoaded", () => {
   loadState();
-  bindEvents();
-  applySettings();
-  renderApps();
-  renderAppList();
 });

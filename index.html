@@ -35,7 +35,11 @@
             <div class="settings-grid">
               <label class="setting">
                 <span>Text size</span>
-                <input id="fontSize" type="range" min="16" max="24" step="1" />
+                <input id="fontSize" type="range" min="16" max="28" step="1" />
+              </label>
+              <label class="setting">
+                <span>Google results size</span>
+                <input id="googleFontSize" type="range" min="20" max="36" step="2" />
               </label>
               <label class="setting toggle">
                 <span>High contrast</span>
@@ -50,7 +54,7 @@
             <form id="appForm" class="app-form">
               <input id="appTitle" name="title" type="text" placeholder="App name" required />
               <input id="appUrl" name="url" type="text" placeholder="https://www.google.com" required />
-              <input id="appIcon" name="icon" type="text" maxlength="2" placeholder="🌐" required />
+              <input id="appIcon" name="iconUrl" type="url" placeholder="Image URL (photo)" required />
               <div class="form-actions">
                 <button class="primary-btn" type="submit">Save app</button>
                 <button id="cancelEdit" class="ghost-btn" type="button">Cancel</button>
