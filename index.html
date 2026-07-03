@@ -9,61 +9,46 @@
   <body>
     <div class="app-shell">
       <div class="phone-frame">
-        <div id="homeScreen" class="screen">
-          <header class="top-bar">
-            <div>
-              <p class="eyebrow">Easy Browser</p>
-              <h1>Simple Home</h1>
-            </div>
-            <button id="editButton" class="ghost-btn" type="button">Edit</button>
-          </header>
+        <header class="top-bar">
+          <button id="homeButton" class="ghost-btn home-btn" type="button">🏠 Home</button>
+          <div>
+            <p class="eyebrow">Easy Browser</p>
+            <h1>AI Overview</h1>
+          </div>
+        </header>
 
-          <section class="search-card" aria-label="Search the web">
-            <label class="sr-only" for="searchInput">Search the web</label>
-            <input id="searchInput" type="text" placeholder="Search or type a website" />
-            <button id="searchButton" type="button">Go</button>
-          </section>
+        <nav class="tab-nav" aria-label="View tabs">
+          <button class="tab-btn active" data-tab="homeTab" type="button">AI overview</button>
+          <button class="tab-btn" data-tab="imagesTab" type="button">Images</button>
+        </nav>
 
-          <main id="appGrid" class="home-grid" aria-label="Favorite apps"></main>
-
-          <section id="editorPanel" class="editor-panel hidden" aria-live="polite">
-            <div class="editor-header">
-              <h2>Helpful editor</h2>
-              <p>Grandchildren can add a favorite site or make buttons easier to read.</p>
-            </div>
-
-            <div class="settings-grid">
-              <label class="setting">
-                <span>Text size</span>
-                <input id="fontSize" type="range" min="16" max="28" step="1" />
-              </label>
-              <label class="setting">
-                <span>Google results size</span>
-                <input id="googleFontSize" type="range" min="20" max="36" step="2" />
-              </label>
-              <label class="setting toggle">
-                <span>High contrast</span>
-                <input id="highContrast" type="checkbox" />
-              </label>
-              <label class="setting toggle">
-                <span>Big buttons</span>
-                <input id="bigButtons" type="checkbox" />
-              </label>
-            </div>
-
-            <form id="appForm" class="app-form">
-              <input id="appTitle" name="title" type="text" placeholder="App name" required />
-              <input id="appUrl" name="url" type="text" placeholder="https://www.google.com" required />
-              <input id="appIcon" name="iconUrl" type="url" placeholder="Image URL (photo)" required />
-              <div class="form-actions">
-                <button class="primary-btn" type="submit">Save app</button>
-                <button id="cancelEdit" class="ghost-btn" type="button">Cancel</button>
+        <main class="tab-content">
+          <section id="homeTab" class="tab-panel active" aria-label="AI overview">
+            <div class="overview-card">
+              <div class="emoji-ring">🧠</div>
+              <h2>AI Overview</h2>
+              <p>Explore a clean and simple page focused on AI insights.</p>
+              <div class="overview-list">
+                <div class="overview-item">Smart answers, no clutter</div>
+                <div class="overview-item">Easy reading, emoji-driven layout</div>
+                <div class="overview-item">Simple page with one focus</div>
               </div>
-            </form>
-
-            <div id="appList" class="app-list"></div>
+            </div>
           </section>
-        </div>
+
+          <section id="imagesTab" class="tab-panel hidden" aria-label="Images page">
+            <div class="images-header">
+              <h2>Image View</h2>
+              <p>A minimal images page with simple cards and no links.</p>
+            </div>
+            <div class="images-grid">
+              <div class="image-card">📷<span>Image 1</span></div>
+              <div class="image-card">📷<span>Image 2</span></div>
+              <div class="image-card">📷<span>Image 3</span></div>
+              <div class="image-card">📷<span>Image 4</span></div>
+            </div>
+          </section>
+        </main>
       </div>
     </div>
 
