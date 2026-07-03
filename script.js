@@ -106,7 +106,14 @@ function renderApps() {
       <img class="app-icon" src="${escapeHtml(app.iconUrl)}" alt="${escapeHtml(app.title)} icon" />
       <span class="app-label">${escapeHtml(app.title)}</span>
     `;
-    tile.addEventListener("click", () => openApp(app.url));
+    const isGoogleApp = app.title.toLowerCase() === "google" || app.url.includes("google.com");
+    tile.addEventListener("click", () => {
+      if (isGoogleApp) {
+        showResultsScreen("Google", true);
+      } else {
+        openApp(app.url);
+      }
+    });
     grid.appendChild(tile);
   });
 }
@@ -187,14 +194,27 @@ function showHomeScreen() {
   resultsScreen.classList.add("hidden");
 }
 
-function showResultsScreen(query) {
+function showResultsScreen(query, isGoogle = false) {
   const homeScreen = document.getElementById("homeScreen");
   const resultsScreen = document.getElementById("resultsScreen");
   const searchQueryText = document.getElementById("searchQueryText");
-  if (!homeScreen || !resultsScreen || !searchQueryText) return;
+  const resultsEyebrow = document.getElementById("resultsEyebrow");
+  const resultsTitle = document.getElementById("resultsTitle");
+  const queryDisplay = document.getElementById("queryDisplay");
+  if (!homeScreen || !resultsScreen || !searchQueryText || !resultsEyebrow || !resultsTitle || !queryDisplay) return;
   if (!query) return;
 
   searchQueryText.textContent = query;
+  if (isGoogle || query.toLowerCase() === "google") {
+    resultsEyebrow.textContent = "Google";
+    resultsTitle.textContent = "AI Overview";
+    queryDisplay.textContent = "Showing Google AI overview and image cards.";
+  } else {
+    resultsEyebrow.textContent = "Search";
+    resultsTitle.textContent = "Search results";
+    queryDisplay.textContent = `Results for ${query}`;
+  }
+
   homeScreen.classList.remove("active");
   homeScreen.classList.add("hidden");
   resultsScreen.classList.remove("hidden");
