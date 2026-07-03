@@ -9,56 +9,97 @@
   <body>
     <div class="app-shell">
       <div class="phone-frame">
-        <header class="top-bar">
-          <div>
-            <p class="eyebrow">Easy Browser</p>
-            <h1>Google Search</h1>
-          </div>
-        </header>
+        <div id="homeScreen" class="screen active">
+          <header class="top-bar">
+            <div>
+              <p class="eyebrow">Easy Browser</p>
+              <h1>Simple Home</h1>
+            </div>
+            <button id="editButton" class="ghost-btn" type="button">Edit</button>
+          </header>
 
-        <nav class="tab-nav" aria-label="View tabs">
-          <button class="tab-btn active" data-tab="homeTab" type="button">Home</button>
-          <button class="tab-btn" data-tab="imagesTab" type="button">Images</button>
-          <button class="tab-btn" data-tab="aiTab" type="button">AI overview</button>
-        </nav>
+          <section class="search-card" aria-label="Search the web">
+            <label class="sr-only" for="searchInput">Search the web</label>
+            <input id="searchInput" type="text" placeholder="Search or type a website" />
+            <button id="searchButton" type="button">Search</button>
+          </section>
 
-        <main class="tab-content">
-          <section id="homeTab" class="tab-panel active" aria-label="Home">
-            <div class="search-card">
-              <div class="search-title">Search the web</div>
-              <div class="search-input-wrap">
-                <input id="searchInput" type="text" placeholder="Type your search" aria-label="Search" />
-                <button id="searchButton" type="button">Search</button>
+          <main id="appGrid" class="home-grid" aria-label="Favorite apps"></main>
+
+          <section id="editorPanel" class="editor-panel hidden" aria-live="polite">
+            <div class="editor-header">
+              <h2>Helpful editor</h2>
+              <p>Grandchildren can add a favorite site or make buttons easier to read.</p>
+            </div>
+
+            <div class="settings-grid">
+              <label class="setting">
+                <span>Text size</span>
+                <input id="fontSize" type="range" min="16" max="28" step="1" />
+              </label>
+              <label class="setting toggle">
+                <span>High contrast</span>
+                <input id="highContrast" type="checkbox" />
+              </label>
+              <label class="setting toggle">
+                <span>Big buttons</span>
+                <input id="bigButtons" type="checkbox" />
+              </label>
+            </div>
+
+            <form id="appForm" class="app-form">
+              <input id="appTitle" name="title" type="text" placeholder="App name" required />
+              <input id="appUrl" name="url" type="text" placeholder="https://www.example.com" required />
+              <input id="appIcon" name="iconUrl" type="url" placeholder="Image URL (photo)" required />
+              <div class="form-actions">
+                <button class="primary-btn" type="submit">Save app</button>
+                <button id="cancelEdit" class="ghost-btn" type="button">Cancel</button>
               </div>
-              <p class="search-note">Only search UI is shown. No links or results are displayed.</p>
-            </div>
-          </section>
+            </form>
 
-          <section id="imagesTab" class="tab-panel hidden" aria-label="Images">
-            <div class="images-header">
-              <h2>Images</h2>
-              <p>Simple image cards only, no links included.</p>
-            </div>
-            <div class="images-grid">
-              <div class="image-card">📷<span>Image 1</span></div>
-              <div class="image-card">📷<span>Image 2</span></div>
-              <div class="image-card">📷<span>Image 3</span></div>
-              <div class="image-card">📷<span>Image 4</span></div>
-            </div>
+            <div id="appList" class="app-list"></div>
           </section>
+        </div>
 
-          <section id="aiTab" class="tab-panel hidden" aria-label="AI overview">
-            <div class="overview-card">
-              <h2>AI Overview</h2>
-              <p>Clear AI insights and a simple dashboard feel.</p>
-              <div class="overview-list">
-                <div class="overview-item">Fast, easy, distraction-free.</div>
-                <div class="overview-item">No links, only content.</div>
-                <div class="overview-item">Designed for simple browsing.</div>
+        <div id="resultsScreen" class="screen hidden">
+          <header class="top-bar">
+            <button id="homeButton" class="ghost-btn" type="button">🏠</button>
+            <div>
+              <p class="eyebrow">Search</p>
+              <h1>Search results</h1>
+            </div>
+          </header>
+
+          <div id="queryDisplay" class="query-display">Results for <span id="searchQueryText"></span></div>
+
+          <nav class="results-nav" aria-label="Results tabs">
+            <button class="tab-btn active" data-tab="imagesTab" type="button">Images</button>
+            <button class="tab-btn" data-tab="aiTab" type="button">AI overview</button>
+          </nav>
+
+          <main class="tab-content">
+            <section id="imagesTab" class="tab-panel active" aria-label="Images tab">
+              <div class="images-grid">
+                <div class="image-card">📷<span>Image 1</span></div>
+                <div class="image-card">📷<span>Image 2</span></div>
+                <div class="image-card">📷<span>Image 3</span></div>
+                <div class="image-card">📷<span>Image 4</span></div>
               </div>
-            </div>
-          </section>
-        </main>
+            </section>
+
+            <section id="aiTab" class="tab-panel hidden" aria-label="AI overview tab">
+              <div class="overview-card">
+                <h2>AI Overview</h2>
+                <p>No links are shown. Only the AI overview and simple images appear after searching.</p>
+                <div class="overview-list">
+                  <div class="overview-item">Clean and quiet search experience.</div>
+                  <div class="overview-item">Images and AI insight only.</div>
+                  <div class="overview-item">Back returns to the regular home screen.</div>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
       </div>
     </div>
 
