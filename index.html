@@ -10,42 +10,52 @@
     <div class="app-shell">
       <div class="phone-frame">
         <header class="top-bar">
-          <button id="homeButton" class="ghost-btn home-btn" type="button">🏠 Home</button>
           <div>
             <p class="eyebrow">Easy Browser</p>
-            <h1>AI Overview</h1>
+            <h1>Google Search</h1>
           </div>
         </header>
 
         <nav class="tab-nav" aria-label="View tabs">
-          <button class="tab-btn active" data-tab="homeTab" type="button">AI overview</button>
+          <button class="tab-btn active" data-tab="homeTab" type="button">Home</button>
           <button class="tab-btn" data-tab="imagesTab" type="button">Images</button>
+          <button class="tab-btn" data-tab="aiTab" type="button">AI overview</button>
         </nav>
 
         <main class="tab-content">
-          <section id="homeTab" class="tab-panel active" aria-label="AI overview">
-            <div class="overview-card">
-              <div class="emoji-ring">🧠</div>
-              <h2>AI Overview</h2>
-              <p>Explore a clean and simple page focused on AI insights.</p>
-              <div class="overview-list">
-                <div class="overview-item">Smart answers, no clutter</div>
-                <div class="overview-item">Easy reading, emoji-driven layout</div>
-                <div class="overview-item">Simple page with one focus</div>
+          <section id="homeTab" class="tab-panel active" aria-label="Home">
+            <div class="search-card">
+              <div class="search-title">Search the web</div>
+              <div class="search-input-wrap">
+                <input id="searchInput" type="text" placeholder="Type your search" aria-label="Search" />
+                <button id="searchButton" type="button">Search</button>
               </div>
+              <p class="search-note">Only search UI is shown. No links or results are displayed.</p>
             </div>
           </section>
 
-          <section id="imagesTab" class="tab-panel hidden" aria-label="Images page">
+          <section id="imagesTab" class="tab-panel hidden" aria-label="Images">
             <div class="images-header">
-              <h2>Image View</h2>
-              <p>A minimal images page with simple cards and no links.</p>
+              <h2>Images</h2>
+              <p>Simple image cards only, no links included.</p>
             </div>
             <div class="images-grid">
               <div class="image-card">📷<span>Image 1</span></div>
               <div class="image-card">📷<span>Image 2</span></div>
               <div class="image-card">📷<span>Image 3</span></div>
               <div class="image-card">📷<span>Image 4</span></div>
+            </div>
+          </section>
+
+          <section id="aiTab" class="tab-panel hidden" aria-label="AI overview">
+            <div class="overview-card">
+              <h2>AI Overview</h2>
+              <p>Clear AI insights and a simple dashboard feel.</p>
+              <div class="overview-list">
+                <div class="overview-item">Fast, easy, distraction-free.</div>
+                <div class="overview-item">No links, only content.</div>
+                <div class="overview-item">Designed for simple browsing.</div>
+              </div>
             </div>
           </section>
         </main>

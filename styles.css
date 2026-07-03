@@ -105,6 +105,7 @@ p {
   display: block;
 }
 
+.search-card,
 .overview-card,
 .images-header,
 .image-card {
@@ -114,19 +115,46 @@ p {
   padding: 20px;
 }
 
-.overview-card {
-  text-align: center;
+.search-card {
+  display: grid;
+  gap: 14px;
 }
 
-.emoji-ring {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 18px;
-  display: grid;
-  place-items: center;
-  font-size: 2.75rem;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #dbeafe, #eef2ff);
+.search-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.search-input-wrap {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.search-input-wrap input {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 14px 16px;
+  font-size: 1rem;
+}
+
+.search-input-wrap button {
+  border: none;
+  border-radius: 999px;
+  padding: 14px 18px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+}
+
+.search-note {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.overview-card {
+  text-align: center;
 }
 
 .overview-list {
@@ -163,7 +191,6 @@ p {
 .image-card span {
   display: block;
   font-size: 0.95rem;
-  color: var(--text);
 }
 
 .hidden {

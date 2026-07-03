@@ -1,4 +1,3 @@
-const homeButton = document.getElementById("homeButton");
 const tabButtons = Array.from(document.querySelectorAll(".tab-btn"));
 const tabPanels = Array.from(document.querySelectorAll(".tab-panel"));
 
@@ -16,13 +15,25 @@ function setActiveTab(tabId) {
 }
 
 function bindEvents() {
-  if (homeButton) {
-    homeButton.addEventListener("click", () => setActiveTab("homeTab"));
-  }
-
   tabButtons.forEach((button) => {
     button.addEventListener("click", () => setActiveTab(button.dataset.tab));
   });
+
+  const searchButton = document.getElementById("searchButton");
+  const searchInput = document.getElementById("searchInput");
+
+  if (searchButton && searchInput) {
+    searchButton.addEventListener("click", () => {
+      searchInput.blur();
+    });
+
+    searchInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        searchInput.blur();
+      }
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
